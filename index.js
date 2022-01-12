@@ -23,6 +23,8 @@ http.createServer((req, res) => {
             console.log(error)
         }
     }
+    //pokemonesInfo()
+
     //insertar informacion en el array Pokedata
     // pokemonesInfo().then((data) => {
     //     data.forEach((p) => {
@@ -34,14 +36,12 @@ http.createServer((req, res) => {
     //funcion asincrona para extraer la imagen
     const getPicture = async (nombre) => {
         try {
-            const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon-form?offset=0&limit=150/s`)
-            console.log(data.sprites.default)
+            const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${nombre}`)
+            console.log(data.sprites.front_default)
         } catch (error) {
             console.log(error)
         }     
     }
-    getPicture()
+    getPicture('pikachu')
 
-
-    
 }).listen(3000,()=>console.log('Servidor ON y funcionando OK'))
