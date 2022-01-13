@@ -46,14 +46,18 @@ http.createServer((req, res) => {
                 pokeInfo.img = img
                 pokeData.push(pokeInfo)
                 //console.log(pokeData)
-                //let pokemones = JSON.stringify(pokeData)
-                //console.log(pokemones)
+                let pokemones = JSON.stringify(pokeData)
+                console.log(pokemones)
             })  
-             Promise.all(pokeData).then((data) => {
+
+            if (req.url == '/pokemones') {
+            Promise.all(pokemones).then((data) => {
              data.forEach((p) => {
              console.log(`${p.name}, ${p.img}`)
                 })
             })
+        }
+             
         })  
        
     }) 
