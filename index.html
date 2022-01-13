@@ -16,24 +16,25 @@
     <div id="Pokemones" class="d-flex p-5 flex-wrap">
       <div class="spinner-border m-auto text-info" id="spinner" role="status"></div>
     </div>
-
-    <script>
+     <script>
       let div = document.getElementById('Pokemones')
       let spinner = document.getElementById('spinner')
       fetch('http://localhost:3000/pokemones')
         .then((res) => res.json())
-        .then((pokemones) => {
+        .then(() => {
           console.log(pokemones)
           spinner.style.display = 'none'
           pokemones.forEach((p) => {
             div.innerHTML += `
           <div>
-            <img src="${p.img}" >
-            <p>${p.nombre}</p>
+            <img src=${p.img} >
+            <p>${p.name}</p>
           </div>
         `
           })
         })
     </script>
+
+
   </body>
 </html>

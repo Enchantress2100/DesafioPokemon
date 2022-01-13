@@ -11,37 +11,51 @@ http.createServer((req, res) => {
             res.end(html)
         })
     }
-   //creacion de array para guardar informacion
-    let pokeData = []
-
+ 
     //funcion asincrona para traer la data de la api, en especifico, nombre y url de los pokemon con axios
     const pokemonesInfo = async () => {
         try {
             const { data } = await axios.get('https://pokeapi.co/api/v2/pokemon-form?offset=0&limit=150')
-            console.log(data)
+            //console.log(data.results)
+            return data.results
         } catch (error) {
             console.log(error)
         }
     }
-    //pokemonesInfo()
-
-    //insertar informacion en el array Pokedata
-    // pokemonesInfo().then((data) => {
-    //     data.forEach((p) => {
-    //         let pokemonName = p.nombre
-    //         pokeData.push(getPicture())//avanza cuando la siguiente funcion este lista
-    //     })
-    // })
 
     //funcion asincrona para extraer la imagen
     const getPicture = async (nombre) => {
         try {
-            const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${nombre}`)
-            console.log(data.sprites.front_default)
+            const imagen = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${nombre}`)
+            const img=imagen.data.sprites.front_default
+            return img
         } catch (error) {
             console.log(error)
         }     
     }
-    getPicture('pikachu')
-
+    
+    //array para insertar las funciones asincronas
+    let pokeData = [];
+    
+    //ejecucion de la promesa. Acá también se transformará el objeto javascript en json.
+    pokemonesInfo().then((data) => {
+        data.forEach(results => {
+            getPicture(results.name).then((img)=> {
+                let pokeInfo = new Object();
+                pokeInfo.nombre = results.name
+                pokeInfo.img = img
+                pokeData.push(pokeInfo)
+                //console.log(pokeData)
+                //let pokemones = JSON.stringify(pokeData)
+                //console.log(pokemones)
+            })  
+             Promise.all(pokeData).then((data) => {
+             data.forEach((p) => {
+             console.log(`${p.name}, ${p.img}`)
+                })
+            })
+        })  
+       
+    }) 
+    
 }).listen(3000,()=>console.log('Servidor ON y funcionando OK'))
