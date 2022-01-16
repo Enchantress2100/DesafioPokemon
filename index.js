@@ -39,13 +39,13 @@ let pokeData = [];
                 //console.log(pokeData)
 
                     //creacion json
-                    // let documento = 'pokemones.json';
-                    // let pokemones = JSON.stringify(pokeData)
-                    // fs.writeFile(documento, pokemones, 'utf-8', function (err) {
-                    //     if (err) {
-                    //         return console.log(err);
-                    //     }
-                    // })
+                    let documento = 'pokemones.json';
+                    let pokemones = JSON.stringify(pokeData)
+                    fs.writeFile(documento, pokemones, 'utf-8', function (err) {
+                         if (err) {
+                             return console.log(err);
+                         }
+                     })
             
                     //promise.all
                     Promise.all(pokeData).then((data) => {
